@@ -14,6 +14,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
+import mk.ukim.finki.wp.lab.model.Workshop;
+import java.util.List;
 
 import java.io.IOException;
 
@@ -37,17 +39,42 @@ public class WorkshopListServlet extends HttpServlet {
                 context.getBean(SpringTemplateEngine.class);
     }
 
+
     @Override
     protected void doGet(HttpServletRequest req,
                          HttpServletResponse resp)
             throws ServletException, IOException {
 
+        String text = req.getParameter("text");
+        String maxPriceParam = req.getParameter("maxPrice");
+
+        if (text != null && text.isBlank()) {
+            text = null;
+        }
+
+        Double maxPrice = null;
+
+        if (maxPriceParam != null && !maxPriceParam.isBlank()) {
+            try {
+                maxPrice = Double.parseDouble(maxPriceParam);
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                        "Invalid max price");
+                return;
+            }
+        }
+
+        List<Workshop> workshops;
+
+        if (req.getParameter("text") != null || maxPriceParam != null) {
+            workshops = workshopService.search(text, maxPrice);
+        } else {
+            workshops = workshopService.listAll();
+        }
+
         Context context = new Context();
 
-        context.setVariable(
-                "workshops",
-                workshopService.listAll()
-        );
+        context.setVariable("workshops", workshops);
 
         context.setVariable(
                 "errorMessage",
@@ -62,4 +89,5 @@ public class WorkshopListServlet extends HttpServlet {
                 resp.getWriter()
         );
     }
+
 }
