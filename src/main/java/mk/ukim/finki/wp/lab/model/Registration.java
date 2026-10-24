@@ -10,6 +10,6 @@ public class Registration {
     private String workshopTitle;
     private String participantName;
     private String participantEmail;
-    int numbersOfSeats;
+    private int numberOfSeats;
 
 }
