@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+<body>
+    <h1 th:text="'Hello ' + ${name} + ' ' + ${surname}">
+    Hello World
+    </h1>
+    <br>
+    <a th:href="@{/servlet/category}">Go to Categories</a>
+</body>
+</html>

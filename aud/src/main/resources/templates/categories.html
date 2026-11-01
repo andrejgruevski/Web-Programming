@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+</head>
+<body>
+
+<h1>Category Manager</h1>
+
+<h3>Client Information</h3>
+
+<p>
+    IP Address:
+    <span th:text="${ipAddress}"></span>
+</p>
+
+<p>
+    User Agent:
+    <span th:text="${userAgent}"></span>
+</p>
+
+<hr>
+
+<h2>All Categories</h2>
+<p>Total Categories:
+<strong th:text="${categories.size()}"></strong>
+</p>
+
+<ul>
+    <li th:each="category : ${categories}">
+        <strong th:text="${category.name}"></strong>
+        -
+        <span th:text="${category.description}"></span>
+    </li>
+</ul>
+
+<hr>
+
+<h2>Add New Category</h2>
+
+<form th:action="@{/servlet/category}" method="post">
+
+    <label for="name">Category Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <br><br>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description"
+           name="description" required>
+
+    <br><br>
+
+    <button type="submit">Add Category</button>
+
+</form>
+
+<br>
+
+<a th:href="@{/hello}">Go to Hello Page</a>
+
+</body>
+</html>
