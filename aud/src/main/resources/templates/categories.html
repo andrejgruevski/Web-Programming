@@ -28,13 +28,29 @@
 <strong th:text="${categories.size()}"></strong>
 </p>
 
+
 <ul>
     <li th:each="category : ${categories}">
+
         <strong th:text="${category.name}"></strong>
         -
         <span th:text="${category.description}"></span>
+
+        <form th:action="@{/servlet/category/delete}"
+              method="post"
+              style="display: inline;">
+
+            <input type="hidden"
+                   name="name"
+                   th:value="${category.name}">
+
+            <button type="submit">Delete</button>
+
+        </form>
+
     </li>
 </ul>
+
 
 <hr>
 

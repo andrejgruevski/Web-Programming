@@ -39,14 +39,24 @@ public class CategoryServlet extends HttpServlet {
 
         addCategory("Movies", "Movies category");
         addCategory("Books", "Books category");
+
+        getServletContext().setAttribute("categories", categories);
     }
 
     private void addCategory(String name, String description) {
+
         if (name == null || name.isBlank()
-                || description == null || description.isBlank()) {
+        || description == null || description.isBlank()){
             return;
         }
+        name = name.trim();
+        description = description.trim();
 
+        for (Category category : categories) {
+            if (category.getName().equalsIgnoreCase(name)) {
+                return;
+            }
+        }
         categories.add(new Category(name, description));
     }
 
