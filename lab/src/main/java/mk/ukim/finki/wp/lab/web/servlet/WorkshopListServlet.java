@@ -19,7 +19,7 @@
 
     import java.io.IOException;
 
-    @WebServlet(urlPatterns = {"", "/workshops"})
+    @WebServlet(urlPatterns = {"/servlet/workshops"})
     public class WorkshopListServlet extends HttpServlet {
 
         private WorkshopService workshopService;

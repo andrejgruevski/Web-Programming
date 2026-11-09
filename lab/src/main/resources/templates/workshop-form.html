@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Workshop Form</title>
+</head>
+<body>
+
+<h1 th:text="${workshop != null} ? 'Edit Workshop' : 'Add Workshop'">
+    Workshop Form
+</h1>
+
+
+<form th:action="@{${workshop != null ? '/workshops/edit/' + workshop.id : '/workshops/add'}}"
+      method="POST">
+
+    <label>Title:</label>
+    <input type="text"
+           name="title"
+           th:value="${workshop != null ? workshop.title : ''}"
+           required>
+    <br><br>
+
+    <label>Category:</label>
+    <input type="text"
+           name="category"
+           th:value="${workshop != null ? workshop.category : ''}"
+           required>
+    <br><br>
+
+    <label>Price:</label>
+    <input type="number"
+           name="price"
+           min="0"
+           step="0.01"
+           th:value="${workshop != null ? workshop.price : ''}"
+           required>
+    <br><br>
+
+    <label>Capacity:</label>
+    <input type="number"
+           name="capacity"
+           min="0"
+           th:value="${workshop != null ? workshop.capacity : ''}"
+           required>
+    <br><br>
+
+
+    <label>Instructor:</label>
+
+    <select name="instructorId" required>
+
+        <option value=""
+                th:if="${workshop == null}"
+                selected disabled>
+            Select instructor
+        </option>
+
+        <option th:each="instructor : ${instructors}"
+                th:value="${instructor.id}"
+                th:text="|${instructor.name} ${instructor.surname}|"
+                th:selected="${workshop != null
+                and workshop.instructor != null
+                and workshop.instructor.id.equals(instructor.id)}">
+        </option>
+
+    </select>
+
+
+    <br><br>
+
+    <button type="submit">Save</button>
+
+</form>
+
+<br>
+
+<a th:href="@{/workshops}">Back to Workshops</a>
+
+</body>
+</html>
