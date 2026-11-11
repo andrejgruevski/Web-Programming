@@ -17,6 +17,9 @@
     import mk.ukim.finki.wp.lab.model.Workshop;
     import java.util.List;
 
+    import org.thymeleaf.context.WebContext;
+    import org.thymeleaf.web.servlet.JakartaServletWebApplication;
+
     import java.io.IOException;
 
     @WebServlet(urlPatterns = {"/servlet/workshops"})
@@ -72,7 +75,11 @@
                 workshops = workshopService.listAll();
             }
 
-            Context context = new Context();
+            var application = JakartaServletWebApplication.buildApplication(getServletContext());
+
+            var exchange = application.buildExchange(req, resp);
+
+            WebContext context = new WebContext(exchange, req.getLocale());
 
             context.setVariable("workshops", workshops);
 

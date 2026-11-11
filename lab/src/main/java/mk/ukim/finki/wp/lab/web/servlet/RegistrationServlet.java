@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.web.servlet.JakartaServletWebApplication;
+
 @WebServlet(urlPatterns = "/servlet/registration")
 public class RegistrationServlet extends HttpServlet {
 
@@ -63,7 +66,12 @@ public class RegistrationServlet extends HttpServlet {
                     numberOfSeats
             );
 
-            Context context = new Context();
+            var application =
+                    JakartaServletWebApplication.buildApplication(getServletContext());
+
+            var exchange = application.buildExchange(req, resp);
+
+            WebContext context = new WebContext(exchange, req.getLocale());
 
             context.setVariable("registration", registration);
             context.setVariable("clientIp", req.getRemoteAddr());
